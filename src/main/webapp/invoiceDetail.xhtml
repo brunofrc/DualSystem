@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:opt="http://primefaces.prime.com.br/optimus"
+      xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="css/bootstrap-theme.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+	</h:head>
+			<h:form>
+				<p:tab id="invoicesTab" title="">
+					<p:toolbar>
+						<f:facet name="left">
+							<h:outputLink value="\home.xhtml">
+				            	<p:commandButton type="button" title="Back" value="back" icon="ui-icon-arrowreturn-1-w" />
+				        	</h:outputLink>
+				        </f:facet>
+				    </p:toolbar>
+		            <p:panel header="Invoice Details" id="invoicesPnl">
+		                <p:messages id="messages"/>
+		                <p:dataTable var="detail" value="#{invoiceController.invoiceDetail}" id="detailTable">
+							    <p:column headerText="Customer Name">
+							        <h:outputText value="#{detail.customerName}" />
+							    </p:column>
+							 
+							    <p:column headerText="Issue Date">
+							        <h:outputText value="#{detail.issueDate}">
+							        <f:convertDateTime pattern="MM/dd/yyyy"></f:convertDateTime>
+							        </h:outputText>
+							    </p:column>
+							 
+							    <p:column headerText="Due Date">
+							        <h:outputText value="#{detail.dueDate}">
+							        <f:convertDateTime pattern="MM/dd/yyyy"></f:convertDateTime>
+							        </h:outputText>
+							    </p:column>
+							 
+							    <p:column headerText="Pay Date">
+							        <h:outputText value="#{detail.payDate}">
+							        <f:convertDateTime pattern="MM/dd/yyyy"></f:convertDateTime>
+							        </h:outputText>
+							    </p:column>
+							    <p:column headerText="Comments">
+							        <h:outputText value="#{detail.comments}"/>
+							    </p:column>
+							</p:dataTable>	
+		            </p:panel>
+		            <p:panel header="Itens">	
+							<p:dataTable var="item" value="#{invoiceController.itensDetail}" id="itemTable">
+							    <p:column headerText="Description">
+							        <h:outputText value="#{item.product}" />
+							    </p:column>
+							 
+							    <p:column headerText="Quantity">
+							        <h:outputText value="#{item.quantity}" />
+							    </p:column>
+							 
+							    <p:column headerText="Unit Price">
+							        <h:outputText value="#{item.unitPrice.doubleValue()}"/>
+							    </p:column>
+							 
+							    <p:column headerText="Total">
+							        <h:outputText value="#{item.totalItem.doubleValue()}"/>
+							    </p:column>
+							</p:dataTable>	
+				
+							<h:outputText value="Total: " style="color:black; font-size:15px;"/>
+		                    <p:outputLabel value="#{invoiceController.invoiceDetail.totalValue}" id="totalItemtable" readonly="true">
+		                    	<f:convertNumber pattern="#00.00" locale="pt_BR"/>
+		                    </p:outputLabel>
+
+			    		</p:panel>
+				</p:tab>
+			</h:form>
+</html>

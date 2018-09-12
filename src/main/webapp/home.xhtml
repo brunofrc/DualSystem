@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+			<h:head>
+		<link rel="stylesheet" href="resources/css/bootstrap.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="resources/css/bootstrap-theme.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="resources/css/style.css" type="text/css" media="all" />
+	</h:head>
+			<h:form>
+				<p:panel header="Invoices">
+					<p:dataTable class="table" id="invoicesTable" value="#{invoiceController.readAllInvoices()}"	var="invoice" rows="10">
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Customer" />
+							</f:facet>
+							<h:outputText value="#{invoice.customerName}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Issue Date"/>
+							</f:facet>
+							<h:outputText value="#{invoice.issueDate}">
+								<f:convertDateTime pattern="MM/dd/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Due Date"/>
+							</f:facet>
+							<h:outputText value="#{invoice.dueDate}">
+								<f:convertDateTime pattern="MM/dd/yyyy"/>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Comments"/>
+							</f:facet>
+							<h:outputText value="#{invoice.comments}"/>
+						</p:column>
+						<p:column style="width:10%;">
+							<f:facet name="header">
+								<h:outputText value="Total HUF"/>
+							</f:facet>
+							<h:outputText value="$ #{invoice.totalValue.doubleValue()}"/>
+						</p:column>
+						<p:column style="width:10%;">
+							<f:facet name="header">
+								<h:outputText value="Total EUR"/>
+							</f:facet>
+							<h:outputText value="$ #{invoice.totalValue.doubleValue()}"/>
+						</p:column>
+						<p:column style="width:22%;">
+							<f:facet name="header">
+								<h:outputText value="Details"/>
+							</f:facet>
+							<h:commandLink action="invoiceDetail.xhtml">
+						    	<p:commandButton value="Details" action="#{invoiceController.getDetails(invoice)}" icon="ui-icon-extlink"/>
+						    </h:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+</html>
