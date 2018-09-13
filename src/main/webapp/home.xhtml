@@ -12,6 +12,11 @@
 </h:head>
 <h:form>
 	<p:panel header="Invoices">
+		<h:commandLink action="createInvoice.xhtml">
+			<p:commandButton value="Create"
+				action="#{invoiceController.instantiateNewInvoice()}"
+				icon="ui-icon-extlink" />
+		</h:commandLink>
 		<p:dataTable class="table" id="invoicesTable"
 			value="#{invoiceController.readAllInvoices()}" var="invoice"
 			rows="10">
@@ -47,13 +52,17 @@
 				<f:facet name="header">
 					<h:outputText value="Total HUF" />
 				</f:facet>
-				<h:outputText value="#{invoice.totalValue.doubleValue()}" />
+				<h:outputText value="#{invoice.totalValue.doubleValue()}">
+					<f:convertNumber pattern="#00.00" />
+				</h:outputText>
 			</p:column>
 			<p:column>
 				<f:facet name="header">
 					<h:outputText value="Total EUR" />
 				</f:facet>
-				<h:outputText value="#{invoice.totalEur.doubleValue()}" />
+				<h:outputText value="#{invoice.totalEur.doubleValue()}">
+					<f:convertNumber pattern="#00.00" />
+				</h:outputText>
 			</p:column>
 			<p:column>
 				<f:facet name="header">
@@ -61,12 +70,11 @@
 				</f:facet>
 				<h:commandLink action="invoiceDetail.xhtml">
 					<p:commandButton value="Details"
-						action="#{invoiceController.getDetails(invoice)}"/>
+						action="#{invoiceController.getDetails(invoice)}" />
 				</h:commandLink>
 				<p:commandButton
 					actionListener="#{invoiceController.deleteInvoice(invoice)}"
-					id="btnDelete" update="invoicesTable" icon="ui-icon-trash"
-					title="Delete">
+					id="btnDelete" update="invoicesTable" value="Delete" title="Delete">
 					<p:confirm header="Confirmation"
 						message="Do you really want to delete the invoice?"
 						icon="ui-icon-alert" />

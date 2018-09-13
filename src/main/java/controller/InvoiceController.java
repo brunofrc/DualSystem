@@ -1,6 +1,7 @@
 package controller;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -37,12 +38,19 @@ import hu.mnb.www.webservices.MNBArfolyamServiceSoap_GetCurrentExchangeRates_Str
 @ApplicationScoped
 public class InvoiceController {
 	/**
-	 * Bean of Invoice DAO
+	 * Bean of Invoice Business
 	 */
 	@Inject
 	private InvoiceBusiness invoiceBusiness;
-
 	private Invoice invoiceDetail;
+	private Invoice newInvoice;
+	private InvoiceItem newInvoiceItem;
+	private double currentEurValue = 0;
+
+	public InvoiceController() {
+		this.newInvoice = new Invoice();
+		this.newInvoiceItem = new InvoiceItem();
+	}
 
 	@PostConstruct
 	public void init() {
@@ -87,8 +95,9 @@ public class InvoiceController {
 	public List<Invoice> readAllInvoices() throws BusinessException {
 		try {
 			List<Invoice> invoices = invoiceBusiness.findAll();
-			for(Invoice invoice : invoices) {
-				invoice.setTotalEur(invoice.getTotalValue()/getEURValue());
+			// this.currentEurValue = getEURValue();
+			for (Invoice invoice : invoices) {
+				invoice.setTotalEur(invoice.getTotalValue() / this.currentEurValue);
 			}
 			return invoices;
 		} catch (Exception e) {
@@ -117,6 +126,49 @@ public class InvoiceController {
 	 */
 	public void getDetails(Invoice invoiceExample) {
 		this.invoiceDetail = invoiceExample;
+		for (InvoiceItem item : this.invoiceDetail.getInvoiceItens()) {
+			item.setTotalEur(item.getTotalItem() / this.currentEurValue);
+		}
+	}
+
+	/**
+	 * Method to create a new invoice
+	 * 
+	 * @throws BusinessException
+	 */
+	public void createInvoice() throws BusinessException {
+		double total = 0;
+		for (InvoiceItem item : this.newInvoice.getInvoiceItens()) {
+			total = total + item.getTotalItem();
+		}
+		this.newInvoice.setTotalValue(total);
+		this.newInvoice.setTotalEur(this.newInvoiceItem.getTotalItem() / this.currentEurValue);
+		invoiceBusiness.persist(this.newInvoice);
+	}
+
+	/**
+	 * Method to add a new invoice item to the new invoice
+	 */
+	public void addInvoiceItem() {
+		this.newInvoiceItem.setTotalItem(this.newInvoiceItem.getQuantity() * this.getNewInvoiceItem().getUnitPrice());
+		this.newInvoiceItem.setTotalEur(this.newInvoiceItem.getTotalItem() / this.currentEurValue);
+		this.newInvoice.getInvoiceItens().add(newInvoiceItem);
+		this.newInvoiceItem = new InvoiceItem();
+	}
+
+	/**
+	 * Method to instantiate a new invoice
+	 */
+	public void instantiateNewInvoice() {
+		this.newInvoice = new Invoice();
+		this.newInvoice.setInvoiceItens(new ArrayList<InvoiceItem>());
+	}
+
+	/**
+	 * Method to instantiate a new invoice item
+	 */
+	public void instantiateNewInvoiceItem() {
+		//this.newInvoiceItem = new InvoiceItem();
 	}
 
 	/**
@@ -153,6 +205,42 @@ public class InvoiceController {
 	 */
 	public void setInvoiceDetail(Invoice invoiceDetail) {
 		this.invoiceDetail = invoiceDetail;
+	}
+
+	/**
+	 * Method responsible for retrieving newInvoice property
+	 * 
+	 * @return Returns the newInvoice property.
+	 */
+	public Invoice getNewInvoice() {
+		return newInvoice;
+	}
+
+	/**
+	 * Method responsible for changing the newInvoice property.
+	 * 
+	 * @param newInvoice
+	 */
+	public void setNewInvoice(Invoice newInvoice) {
+		this.newInvoice = newInvoice;
+	}
+
+	/**
+	 * Method responsible for retrieving newInvoiceItem property
+	 * 
+	 * @return Returns the newInvoiceItem property.
+	 */
+	public InvoiceItem getNewInvoiceItem() {
+		return newInvoiceItem;
+	}
+
+	/**
+	 * Method responsible for changing the newInvoiceItem property.
+	 * 
+	 * @param newInvoiceItem
+	 */
+	public void setNewInvoiceItem(InvoiceItem newInvoiceItem) {
+		this.newInvoiceItem = newInvoiceItem;
 	}
 
 }

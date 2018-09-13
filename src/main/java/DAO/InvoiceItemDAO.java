@@ -4,8 +4,16 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import Entity.InvoiceItem;
 
+import Entity.Invoice;
+import Entity.InvoiceItem;
+/**
+ * Database access class, where specific methods for manipulating objects of the
+ * {@link InvoiceItem} type are implemented.
+ * 
+ * @author bruno
+ *
+ */
 @Stateless
 @Local
 public class InvoiceItemDAO extends GenericDAO<InvoiceItem>{

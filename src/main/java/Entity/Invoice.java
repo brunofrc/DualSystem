@@ -18,6 +18,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 /**
  * Class responsible for ensuring the mapping of the relational object
  * 
@@ -37,7 +40,8 @@ public class Invoice implements Serializable {
 	@Column(name = "CUSTUMER_NAME", length = 60, nullable = false)
 	private String customerName;
 
-	@OneToMany(mappedBy = "invoice", targetEntity = InvoiceItem.class, orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "invoice", targetEntity = InvoiceItem.class, orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private List<InvoiceItem> invoiceItens;
 
 	@Temporal(TemporalType.DATE)
@@ -48,9 +52,6 @@ public class Invoice implements Serializable {
 	@Column(name = "DUE_DATE", nullable = false)
 	private Date dueDate;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "PAY_DATE", nullable = true)
-	private Date payDate;
 
 	@Column(name = "COMMENT", length = 120, nullable = true)
 	private String comments;
@@ -131,24 +132,6 @@ public class Invoice implements Serializable {
 	 */
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
-	}
-
-	/**
-	 * Method responsible for retrieving payDate property
-	 * 
-	 * @return Returns the payDate property.
-	 */
-	public Date getPayDate() {
-		return payDate;
-	}
-
-	/**
-	 * Method responsible for changing the payDate property.
-	 * 
-	 * @param payDate
-	 */
-	public void setPayDate(Date payDate) {
-		this.payDate = payDate;
 	}
 
 	/**

@@ -12,6 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 /**
  * Class responsible for ensuring the mapping of the relational object
@@ -28,9 +32,10 @@ public class InvoiceItem implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INVOICE_ITEM")
 	@Column(name = "ID_INVOICE_ITEM")
 	private Long id;
-
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	
+	@ManyToOne(optional = false, fetch = FetchType.EAGER, targetEntity = Invoice.class)
 	@JoinColumn(name = "invoice_id")
+	@JsonBackReference
 	private Invoice invoice;
 
 	@Column(name = "PRODUCT_NAME", nullable = false)
@@ -44,6 +49,9 @@ public class InvoiceItem implements Serializable {
 
 	@Column(name = "TOTALITEM")
 	private double totalItem;
+
+	@Transient
+	private double totalEur;
 
 	/**
 	 * Method responsible for retrieving id property
@@ -64,6 +72,42 @@ public class InvoiceItem implements Serializable {
 	}
 
 	/**
+	 * Method responsible for retrieving name property
+	 * 
+	 * @return Returns the name property.
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Method responsible for changing the name property.
+	 * 
+	 * @param name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Method responsible for retrieving totalEur property
+	 * 
+	 * @return Returns the totalEur property.
+	 */
+	public double getTotalEur() {
+		return totalEur;
+	}
+
+	/**
+	 * Method responsible for changing the totalEur property.
+	 * 
+	 * @param totalEur
+	 */
+	public void setTotalEur(double totalEur) {
+		this.totalEur = totalEur;
+	}
+
+	/**
 	 * Method responsible for retrieving invoice property
 	 * 
 	 * @return Returns the invoice property.
@@ -79,24 +123,6 @@ public class InvoiceItem implements Serializable {
 	 */
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
-	}
-
-	/**
-	 * Method responsible for retrieving name property
-	 * 
-	 * @return Returns the name property.
-	 */
-	public String getProduct() {
-		return name;
-	}
-
-	/**
-	 * Method responsible for changing the name property.
-	 * 
-	 * @param product
-	 */
-	public void setProduct(String product) {
-		this.name = product;
 	}
 
 	/**

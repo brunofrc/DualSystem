@@ -47,6 +47,15 @@ public class InvoiceDAO extends GenericDAO<Invoice> {
 		return em;
 	}
 
+	@Override
+	public Invoice persist(Invoice invoice) {
+		for(InvoiceItem item : invoice.getInvoiceItens()) {
+			item.setInvoice(invoice);
+		}
+		getEntityManager().persist(invoice);
+		return invoice;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
