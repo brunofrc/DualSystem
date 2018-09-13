@@ -63,10 +63,8 @@ public class InvoiceDAO extends GenericDAO<Invoice> {
 	 */
 	@Override
 	public void remove(Invoice invoice) {
-		for (InvoiceItem item : invoice.getInvoiceItens()) {
-			invoice.getInvoiceItens().remove(item);
-			getEntityManager().flush();
-		}
+		invoice.getInvoiceItens().clear();
+		getEntityManager().flush();
 		getEntityManager().remove(getEntityManager().merge(invoice));
 	}
 }

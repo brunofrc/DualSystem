@@ -69,12 +69,13 @@
 					<h:outputText value="Options" />
 				</f:facet>
 				<h:commandLink action="invoiceDetail.xhtml">
-					<p:commandButton value="Details"
+					<p:commandButton value="View"
 						action="#{invoiceController.getDetails(invoice)}" />
 				</h:commandLink>
 				<p:commandButton
 					actionListener="#{invoiceController.deleteInvoice(invoice)}"
-					id="btnDelete" update="invoicesTable" value="Delete" title="Delete">
+					id="btnDelete" update="invoicesTable" title="Delete"
+					icon="ui-icon-trash">
 					<p:confirm header="Confirmation"
 						message="Do you really want to delete the invoice?"
 						icon="ui-icon-alert" />
@@ -85,6 +86,10 @@
 					<p:commandButton value="No" type="button"
 						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 				</p:confirmDialog>
+				<h:commandLink action="editInvoice.xhtml">
+					<p:commandButton action="#{invoiceController.editInvoice(invoice)}"
+						icon="ui-icon-pencil" />
+				</h:commandLink>
 			</p:column>
 
 		</p:dataTable>

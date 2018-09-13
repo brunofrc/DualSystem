@@ -46,5 +46,18 @@ public class InvoiceItemDAO extends GenericDAO<InvoiceItem>{
 	protected EntityManager getEntityManager() {
 		return em;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see DAO.GenericDAO#remove(java.lang.Object)
+	 */
+	@Override
+	public void remove(InvoiceItem invoiceitem) {
+		Invoice invoice = invoiceitem.getInvoice();
+    	invoice.getInvoiceItens().remove(invoiceitem);
+    	getEntityManager().flush();
+		getEntityManager().remove(getEntityManager().merge(invoice));
+	}
 
 }

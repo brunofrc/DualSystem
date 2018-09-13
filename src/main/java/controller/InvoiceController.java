@@ -20,6 +20,7 @@ import org.tempuri.MNBArfolyamServiceSoapImplLocator;
 
 import Business.BusinessException;
 import Business.InvoiceBusiness;
+import Business.InvoiceItemBusiness;
 import DAO.DAOException;
 import DAO.InvoiceDAO;
 import Entity.Invoice;
@@ -42,9 +43,15 @@ public class InvoiceController {
 	 */
 	@Inject
 	private InvoiceBusiness invoiceBusiness;
+	/**
+	 * Bean of InvoiceItem Business
+	 */
+	@Inject
+	private InvoiceItemBusiness invoiceItemBusiness;
 	private Invoice invoiceDetail;
 	private Invoice newInvoice;
 	private InvoiceItem newInvoiceItem;
+	private Invoice editInvoice;
 	private double currentEurValue = 0;
 
 	public InvoiceController() {
@@ -132,6 +139,19 @@ public class InvoiceController {
 	}
 
 	/**
+	 * Method to set the invoice to be edited
+	 * 
+	 * @param invoice
+	 */
+	public void editInvoice(Invoice invoice) {
+		this.editInvoice = invoice;
+	}
+
+	public void saveInvoice() throws BusinessException {
+		this.invoiceBusiness.edit(this.editInvoice);
+	}
+
+	/**
 	 * Method to create a new invoice
 	 * 
 	 * @throws BusinessException
@@ -157,6 +177,19 @@ public class InvoiceController {
 	}
 
 	/**
+	 * Method to add a new invoice item to the edit invoice
+	 * @throws BusinessException 
+	 */
+	public void addInvoiceItemEdit() throws BusinessException {
+		this.newInvoiceItem.setTotalItem(this.newInvoiceItem.getQuantity() * this.getNewInvoiceItem().getUnitPrice());
+		this.newInvoiceItem.setTotalEur(this.newInvoiceItem.getTotalItem() / this.currentEurValue);
+		this.newInvoiceItem.setInvoice(this.editInvoice);
+		this.invoiceItemBusiness.persist(newInvoiceItem);
+		this.editInvoice.getInvoiceItens().add(newInvoiceItem);
+		this.newInvoiceItem = new InvoiceItem();
+	}
+
+	/**
 	 * Method to instantiate a new invoice
 	 */
 	public void instantiateNewInvoice() {
@@ -168,7 +201,7 @@ public class InvoiceController {
 	 * Method to instantiate a new invoice item
 	 */
 	public void instantiateNewInvoiceItem() {
-		//this.newInvoiceItem = new InvoiceItem();
+		// this.newInvoiceItem = new InvoiceItem();
 	}
 
 	/**
@@ -241,6 +274,42 @@ public class InvoiceController {
 	 */
 	public void setNewInvoiceItem(InvoiceItem newInvoiceItem) {
 		this.newInvoiceItem = newInvoiceItem;
+	}
+
+	/**
+	 * Method responsible for retrieving editInvoice property
+	 * 
+	 * @return Returns the editInvoice property.
+	 */
+	public Invoice getEditInvoice() {
+		return editInvoice;
+	}
+
+	/**
+	 * Method responsible for changing the editInvoice property.
+	 * 
+	 * @param editInvoice
+	 */
+	public void setEditInvoice(Invoice editInvoice) {
+		this.editInvoice = editInvoice;
+	}
+
+	/**
+	 * Method responsible for retrieving invoiceItemBusiness property
+	 * 
+	 * @return Returns the invoiceItemBusiness property.
+	 */
+	public InvoiceItemBusiness getInvoiceItemBusiness() {
+		return invoiceItemBusiness;
+	}
+
+	/**
+	 * Method responsible for changing the invoiceItemBusiness property.
+	 * 
+	 * @param invoiceItemBusiness
+	 */
+	public void setInvoiceItemBusiness(InvoiceItemBusiness invoiceItemBusiness) {
+		this.invoiceItemBusiness = invoiceItemBusiness;
 	}
 
 }
