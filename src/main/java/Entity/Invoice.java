@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * Class responsible for ensuring the mapping of the relational object
@@ -56,6 +57,9 @@ public class Invoice implements Serializable {
 	
 	@Column(name = "TOTALVALUE")
 	private Double totalValue;
+	
+	@Transient
+	private Double totalEur;
 
 	/**
 	 * Method responsible for retrieving id property
@@ -200,4 +204,21 @@ public class Invoice implements Serializable {
 	public void setInvoiceItens(List<InvoiceItem> invoiceItens) {
 		this.invoiceItens = invoiceItens;
 	}
+	/**
+	 * Method responsible for retrieving totalEur property
+	 * 
+	 * @return Returns the totalEur property.
+	 */
+	public Double getTotalEur() {
+		return totalEur;
+	}
+	/**
+	 * Method responsible for changing the totalEur property.
+	 * 
+	 * @param totalEur
+	 */
+	public void setTotalEur(Double totalEur) {
+		this.totalEur = totalEur;
+	}
+
 }

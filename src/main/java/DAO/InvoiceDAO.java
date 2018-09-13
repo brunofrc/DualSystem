@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import Entity.Invoice;
+import Entity.InvoiceItem;
 
 /**
  * Database access class, where specific methods for manipulating objects of the
@@ -16,7 +17,7 @@ import Entity.Invoice;
  */
 @Stateless
 @Local
-public class InvoiceDAO extends IGenericDAO<Invoice> {
+public class InvoiceDAO extends GenericDAO<Invoice> {
 	/**
 	 * Builder
 	 */
@@ -44,5 +45,19 @@ public class InvoiceDAO extends IGenericDAO<Invoice> {
 	@Override
 	protected EntityManager getEntityManager() {
 		return em;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see DAO.GenericDAO#remove(java.lang.Object)
+	 */
+	@Override
+	public void remove(Invoice invoice) {
+		for (InvoiceItem item : invoice.getInvoiceItens()) {
+			invoice.getInvoiceItens().remove(item);
+			getEntityManager().flush();
+		}
+		getEntityManager().remove(getEntityManager().merge(invoice));
 	}
 }
