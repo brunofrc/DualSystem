@@ -14,19 +14,14 @@ import javax.xml.rpc.ServiceException;
 import org.core4j.Enumerable;
 import org.core4j.xml.XDocument;
 import org.core4j.xml.XElement;
-import org.hibernate.internal.util.xml.XmlDocument;
-import org.tempuri.CustomBinding_MNBArfolyamServiceSoapStub;
 import org.tempuri.MNBArfolyamServiceSoapImplLocator;
 
 import Business.BusinessException;
 import Business.InvoiceBusiness;
 import Business.InvoiceItemBusiness;
-import DAO.DAOException;
-import DAO.InvoiceDAO;
 import Entity.Invoice;
 import Entity.InvoiceItem;
 import hu.mnb.www.webservices.MNBArfolyamServiceSoap;
-import hu.mnb.www.webservices.MNBArfolyamServiceSoapProxy;
 import hu.mnb.www.webservices.MNBArfolyamServiceSoap_GetCurrentExchangeRates_StringFault_FaultMessage;
 
 /**
@@ -54,9 +49,10 @@ public class InvoiceController {
 	private Invoice editInvoice;
 	private double currentEurValue = 0;
 
-	public InvoiceController() {
+	public InvoiceController() throws MNBArfolyamServiceSoap_GetCurrentExchangeRates_StringFault_FaultMessage, RemoteException, ServiceException {
 		this.newInvoice = new Invoice();
 		this.newInvoiceItem = new InvoiceItem();
+		this.currentEurValue = getEURValue();
 	}
 
 	@PostConstruct
@@ -102,7 +98,6 @@ public class InvoiceController {
 	public List<Invoice> readAllInvoices() throws BusinessException {
 		try {
 			List<Invoice> invoices = invoiceBusiness.findAll();
-			// this.currentEurValue = getEURValue();
 			for (Invoice invoice : invoices) {
 				invoice.setTotalEur(invoice.getTotalValue() / this.currentEurValue);
 			}
@@ -145,9 +140,17 @@ public class InvoiceController {
 	 */
 	public void editInvoice(Invoice invoice) {
 		this.editInvoice = invoice;
+		for (InvoiceItem item : this.editInvoice.getInvoiceItens()) {
+			item.setTotalEur(item.getTotalItem() / this.currentEurValue);
+		}
 	}
 
 	public void saveInvoice() throws BusinessException {
+		double total = 0;
+		for (InvoiceItem item : this.editInvoice.getInvoiceItens()) {
+			total = total + item.getTotalItem();
+		}
+		this.editInvoice.setTotalValue(total);
 		this.invoiceBusiness.edit(this.editInvoice);
 	}
 
@@ -178,7 +181,8 @@ public class InvoiceController {
 
 	/**
 	 * Method to add a new invoice item to the edit invoice
-	 * @throws BusinessException 
+	 * 
+	 * @throws BusinessException
 	 */
 	public void addInvoiceItemEdit() throws BusinessException {
 		this.newInvoiceItem.setTotalItem(this.newInvoiceItem.getQuantity() * this.getNewInvoiceItem().getUnitPrice());
@@ -188,6 +192,7 @@ public class InvoiceController {
 		this.editInvoice.getInvoiceItens().add(newInvoiceItem);
 		this.newInvoiceItem = new InvoiceItem();
 	}
+
 
 	/**
 	 * Method to instantiate a new invoice

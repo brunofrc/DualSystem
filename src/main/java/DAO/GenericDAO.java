@@ -3,7 +3,6 @@ package DAO;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
 /**
@@ -65,16 +64,6 @@ public abstract class GenericDAO<T> {
 		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 		cq.select(cq.from(entityClass));
 		return getEntityManager().createQuery(cq).getResultList();
-	}
-
-	/**
-	 * Method to find a generic entity by id
-	 * @param id
-	 * @return
-	 */
-	public T find(Long id) throws DAOException{
-		T e = getEntityManager().find(entityClass, id);
-		return e;
 	}
 
 }

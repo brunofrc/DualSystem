@@ -1,12 +1,13 @@
 package Business;
 /**
- * Excecao a ser disparada sempre que ocorrer um erro na camada de Business
+ * Exception to be thrown whenever an error occurs in the Business layer
+ * 
  * @author bruno
  *
  */
 public class BusinessException extends Exception {
 	/**
-	 * Construtor padrao
+	 * Standard Builder
 	 */
 	public BusinessException(){
 
@@ -14,7 +15,7 @@ public class BusinessException extends Exception {
 	}
 
 	/**
-	 * Exception com tres parametros e um Throwable
+	 * Exception with three parameters and a Throwable
 	 * 
 	 * @param arg0
 	 *            String
@@ -32,7 +33,7 @@ public class BusinessException extends Exception {
 	}
 
 	/**
-	 * Exception com um parametro e um Throwable
+	 * Exception with a parameters and a Throwable
 	 * 
 	 * @param arg0
 	 *            String
@@ -45,7 +46,7 @@ public class BusinessException extends Exception {
 	}
 
 	/**
-	 * Exception com um parametro
+	 * Exception with a parameters
 	 * 
 	 * @param arg0
 	 *            String
@@ -56,7 +57,7 @@ public class BusinessException extends Exception {
 	}
 
 	/**
-	 * Exception com um Throwable
+	 * Exception with a Throwable
 	 * 
 	 * @param arg0
 	 *            Throwable

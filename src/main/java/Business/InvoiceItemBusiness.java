@@ -4,13 +4,19 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 
 import DAO.DAOException;
-import DAO.InvoiceDAO;
 import DAO.InvoiceItemDAO;
-import Entity.Invoice;
 import Entity.InvoiceItem;
+
+/**
+ * Business class, where specific methods are implemented to manipulation and
+ * validation of objects of type @Link {InvoiceItem}.
+ * 
+ * @author bruno
+ *
+ */
 @Stateless
 @Local
-public class InvoiceItemBusiness extends GenericBusiness<InvoiceItem, InvoiceItemDAO>{
+public class InvoiceItemBusiness extends GenericBusiness<InvoiceItem, InvoiceItemDAO> {
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -32,8 +38,10 @@ public class InvoiceItemBusiness extends GenericBusiness<InvoiceItem, InvoiceIte
 			throw new BusinessException(e);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see Business.GenericBusiness#edit(java.lang.Object)
 	 */
 	@Override
@@ -45,7 +53,7 @@ public class InvoiceItemBusiness extends GenericBusiness<InvoiceItem, InvoiceIte
 			throw new BusinessException("Unit price is Mandatory");
 		} else if (entity.getQuantity() == 0) {
 			throw new BusinessException("Quantity is Mandatory");
-		} 
+		}
 		try {
 			return getDAO().edit(entity);
 		} catch (DAOException e) {

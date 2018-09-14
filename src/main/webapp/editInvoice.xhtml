@@ -47,7 +47,8 @@
 					action="#{invoiceController.instantiateNewInvoiceItem()}"
 					update="@this" />
 				<p:dataTable var="item"
-					value="#{invoiceController.editInvoice.invoiceItens}" id="itemTable">
+					value="#{invoiceController.editInvoice.invoiceItens}"
+					id="itemTable">
 					<p:column headerText="Product name">
 						<h:outputText value="#{item.name}" />
 					</p:column>
@@ -72,13 +73,12 @@
 							<f:convertNumber pattern="#00.00" />
 						</h:outputText>
 					</p:column>
-
 				</p:dataTable>
 			</p:panel>
-					<p:commandButton value="Save"
-						action="#{invoiceController.saveInvoice()}"
-						validateClient="true" onstart="statusDialog.show();"
-						onsuccess="statusDialog.hide();" update="@this" />
+			<p:commandButton value="Save"
+				action="#{invoiceController.saveInvoice()}" validateClient="true"
+				onstart="statusDialog.show();" onsuccess="statusDialog.hide();"
+				update="@this" />
 		</p:panel>
 	</p:tab>
 </h:form>

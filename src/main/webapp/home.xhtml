@@ -14,8 +14,7 @@
 	<p:panel header="Invoices">
 		<h:commandLink action="createInvoice.xhtml">
 			<p:commandButton value="Create"
-				action="#{invoiceController.instantiateNewInvoice()}"
-				icon="ui-icon-extlink" />
+				action="#{invoiceController.instantiateNewInvoice()}" />
 		</h:commandLink>
 		<p:dataTable class="table" id="invoicesTable"
 			value="#{invoiceController.readAllInvoices()}" var="invoice"
@@ -82,9 +81,9 @@
 				</p:commandButton>
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 					<p:commandButton value="Yes" type="button"
-						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						styleClass="ui-confirmdialog-yes" />
 					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						styleClass="ui-confirmdialog-no"/>
 				</p:confirmDialog>
 				<h:commandLink action="editInvoice.xhtml">
 					<p:commandButton action="#{invoiceController.editInvoice(invoice)}"

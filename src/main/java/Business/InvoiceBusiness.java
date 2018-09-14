@@ -7,6 +7,13 @@ import DAO.DAOException;
 import DAO.InvoiceDAO;
 import Entity.Invoice;
 
+/**
+ * Business class, where specific methods are implemented to manipulation and
+ * validation of objects of type @Link {Invoice}.
+ * 
+ * @author bruno
+ *
+ */
 @Stateless
 @Local
 public class InvoiceBusiness extends GenericBusiness<Invoice, InvoiceDAO> {
@@ -29,8 +36,10 @@ public class InvoiceBusiness extends GenericBusiness<Invoice, InvoiceDAO> {
 		}
 		return getDAO().persist(entity);
 	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see Business.GenericBusiness#edit(java.lang.Object)
 	 */
 	@Override

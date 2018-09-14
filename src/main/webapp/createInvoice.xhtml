@@ -72,13 +72,12 @@
 							<f:convertNumber pattern="#00.00" />
 						</h:outputText>
 					</p:column>
-
 				</p:dataTable>
 			</p:panel>
-					<p:commandButton value="Save"
-						action="#{invoiceController.createInvoice()}"
-						validateClient="true" onstart="statusDialog.show();"
-						onsuccess="statusDialog.hide();" update="@this" />
+			<p:commandButton value="Save"
+				action="#{invoiceController.createInvoice()}" validateClient="true"
+				onstart="statusDialog.show();" onsuccess="statusDialog.hide();"
+				update="@this" />
 		</p:panel>
 	</p:tab>
 </h:form>

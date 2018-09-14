@@ -18,9 +18,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-
 /**
  * Class responsible for ensuring the mapping of the relational object
  * 
@@ -41,7 +38,6 @@ public class Invoice implements Serializable {
 	private String customerName;
 
 	@OneToMany(mappedBy = "invoice", targetEntity = InvoiceItem.class, orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JsonManagedReference
 	private List<InvoiceItem> invoiceItens;
 
 	@Temporal(TemporalType.DATE)

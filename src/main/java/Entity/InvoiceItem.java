@@ -14,7 +14,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 /**
@@ -35,7 +34,6 @@ public class InvoiceItem implements Serializable {
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER, targetEntity = Invoice.class)
 	@JoinColumn(name = "invoice_id")
-	@JsonBackReference
 	private Invoice invoice;
 
 	@Column(name = "PRODUCT_NAME", nullable = false)
